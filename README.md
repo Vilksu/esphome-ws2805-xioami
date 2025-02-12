@@ -1,8 +1,13 @@
 # ESPHome NeoPixelBus 2.8.3 component
 
-Basic addressable RGBWC led strip light component for esphome.\n
-<NeoRgbwcFeature, NeoEsp32Rmt0Ws2805Method>\n
-If you need to change the method just fork the component and edit `rgbwc_neopixelbus.h`
+Basic addressable RGBWC led strip light component for [ESPHome](https://esphome.io/).
+
+Using [NeoPixelBus](https://github.com/Makuna/NeoPixelBus) 2.8.3.
+
+Feature and method: <NeoRgbwcFeature, NeoEsp32Rmt0Ws2805Method>
+
+If you need to change the method just fork the repo and edit `rgbwc_neopixelbus.h`
+
 ## Example
 ```yaml
 external_components:
