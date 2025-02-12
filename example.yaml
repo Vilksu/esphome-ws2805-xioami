@@ -1,0 +1,16 @@
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+external_components:
+  - source: my_components
+    components: [rgbwc_ws2805]
+
+light:
+  - platform: rgbwc_ws2805
+    name: WS2805 RGBWC Led Strip
+    pin: 16
+    num_leds: 10
+    default_transition_length: 500ms
+    restore_mode: RESTORE_AND_OFF
