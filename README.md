@@ -11,7 +11,7 @@ If you need to change the method just fork the repo and edit `rgbwc_neopixelbus.
 ## Example
 ```yaml
 external_components:
-  - source: github.com/Jak3zz/esphome-ws2805
+  - source: github://Jak3zz/esphome-ws2805
     components: [rgbwc_neopixelbus]
 
 light:
