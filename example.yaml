@@ -1,15 +1,19 @@
+esphome:
+  name: ws2805-light
+  friendly_name: WS2805 Light
+      
 esp32:
   board: esp32dev
   framework:
     type: arduino
 
 external_components:
-  - source: my_components
-    components: [rgbwc_ws2805]
+  - source: github://Jak3zz/esphome-ws2805
+    components: [rgbwc_neopixelbus]
 
 light:
-  - platform: rgbwc_ws2805
-    name: WS2805 RGBWC Led Strip
+  - platform: rgbwc_neopixelbus
+    name: Ambiance Light
     pin: 16
     num_leds: 10
     default_transition_length: 500ms
