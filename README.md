@@ -27,7 +27,8 @@ Xiaomi monitor light bar remote control component for [ESPHome](https://esphome.
 
 Made for *Mi Computer Monitor Light Bar*
 
-Connect pins to remotes encoders legs marked on the pcb with A, B and D
+Connect pins to remotes encoders legs marked on the pcb with A, B and D.
+Also the remote needs to be powered with 3.3v
 
 ![Image of remote pcb](./xiaomi_light_remote.jpg?raw=true)
 
