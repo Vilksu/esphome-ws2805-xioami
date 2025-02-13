@@ -9,12 +9,19 @@ esp32:
 
 external_components:
   - source: github://Jak3zz/esphome-ws2805
-    components: [rgbwc_neopixelbus]
+    components: [rgbwc_neopixelbus, xiaomi_monitor_light]
 
 light:
   - platform: rgbwc_neopixelbus
-    name: Ambiance Light
+    name: Ws2805 led strip
     pin: 16
     num_leds: 10
     default_transition_length: 500ms
     restore_mode: RESTORE_AND_OFF
+
+  - platform: xiaomi_monitor_light
+    name: "Xiaomi Light Bar"
+    pin_a: 33
+    pin_b: 25
+    pin_d: 32
+    restore_mode: RESTORE_DEFAULT_OFF 

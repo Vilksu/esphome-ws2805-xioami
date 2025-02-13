@@ -1,5 +1,6 @@
-# ESPHome NeoPixelBus 2.8.3 component
+# ESPHome NeoPixelBus 2.8.3 and Xiaomi Monitor Light Bar components
 
+## rgbwc_neopixelbus component
 Basic addressable RGBWC led strip light component for [ESPHome](https://esphome.io/).
 
 Using [NeoPixelBus](https://github.com/Makuna/NeoPixelBus) 2.8.3.
@@ -16,11 +17,31 @@ external_components:
 
 light:
   - platform: rgbwc_neopixelbus
+    name: Ambiance Light
     pin: 16
     num_leds: 10
-
-    name: WS2805 RGBWC Led Strip
-    default_transition_length: 500ms
-    restore_mode: RESTORE_AND_OFF
 ```
 
+## xiaomi_monitor_light component
+Xiaomi monitor light bar remote control component for [ESPHome](https://esphome.io/).
+
+Made for *Mi Computer Monitor Light Bar*
+
+Connect pins to remotes encoders legs marked on the pcb with A, B and D
+
+[[xiaomi_light_remote.jpg]]
+
+## Example
+```yaml
+external_components:
+  - source: github://Jak3zz/esphome-ws2805
+    components: [xiaomi_monitor_light]
+
+light:
+  - platform: xiaomi_monitor_light
+    name: "Xiaomi Light Bar"
+    id: light_bar
+    pin_a: 33
+    pin_b: 25
+    pin_d: 32
+```
