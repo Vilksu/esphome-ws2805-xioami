@@ -29,7 +29,7 @@ Made for *Mi Computer Monitor Light Bar*
 
 Connect pins to remotes encoders legs marked on the pcb with A, B and D
 
-[[xiaomi_light_remote.jpg]]
+![Image of remote pcb](./xiaomi_light_remote.jpg?raw=true)
 
 ## Example
 ```yaml
