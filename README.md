@@ -31,6 +31,7 @@ Connect pins to remotes encoders legs marked on the pcb with A, B and D
 
 ![Image of remote pcb](./xiaomi_light_remote.jpg?raw=true)
 
+Of the light is out of sync with Esphome: turn on from Esphome and power cycle the light. It will turn on.
 ## Example
 ```yaml
 external_components:
