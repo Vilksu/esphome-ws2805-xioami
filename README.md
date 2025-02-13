@@ -32,7 +32,7 @@ Also the remote needs to be powered with 3.3v
 
 ![Image of remote pcb](./xiaomi_light_remote.jpg?raw=true)
 
-Of the light is out of sync with Esphome: turn on from Esphome and power cycle the light. It will turn on.
+If the light is out of sync with Esphome: turn on from Esphome and power cycle the light. It will turn on.
 ## Example
 ```yaml
 external_components:
