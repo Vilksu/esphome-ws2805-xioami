@@ -6,10 +6,11 @@ namespace rgbwc_neopixelbus {
 
 static const char *TAG = "rgbwc_neopixelbus.light";
 
-NeoPixelRgbwc::NeoPixelRgbwc(uint16_t pixel_count, uint8_t gpio_pin)
+NeoPixelRgbwc::NeoPixelRgbwc(uint16_t pixel_count, uint8_t gpio_pin, uint8_t rmt)
   : pixel_count(pixel_count),
     gpio_pin(gpio_pin),
-    pixels(pixel_count, gpio_pin)
+    channel(static_cast<NeoBusChannel>(rmt)),
+    pixels(pixel_count, gpio_pin, channel)
     
 {
   ESP_LOGCONFIG(TAG, "Setting up NeoPixelBus on GPIO %d", gpio_pin);

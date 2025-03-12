@@ -9,8 +9,8 @@ namespace rgbwc_neopixelbus {
 
 class NeoPixelRgbwc : public light::LightOutput, public Component {
  public:
-  NeoPixelRgbwc(uint16_t pixel_count, uint8_t gpio_pin);
-  NeoPixelBus<NeoRgbwcFeature, NeoEsp32Rmt0Ws2805Method> pixels;
+  NeoPixelRgbwc(uint16_t pixel_count, uint8_t gpio_pin, uint8_t rmt);
+  NeoPixelBus<NeoRgbwcFeature, NeoEsp32RmtNWs2805Method> pixels;
   void setup() override;
   light::LightTraits get_traits() override;
   void write_state(light::LightState *state) override;
@@ -38,6 +38,7 @@ class NeoPixelRgbwc : public light::LightOutput, public Component {
 
   uint16_t pixel_count;
   uint8_t gpio_pin;
+  NeoBusChannel channel;
 
   void set_color(RgbwwColor color_state);
   RgbwwColor calculate_rgb_values();

@@ -5,14 +5,15 @@ Basic addressable RGBWC led strip light component for [ESPHome](https://esphome.
 
 Using [NeoPixelBus](https://github.com/Makuna/NeoPixelBus) 2.8.3.
 
-Feature and method: <NeoRgbwcFeature, NeoEsp32Rmt0Ws2805Method>
+Feature and method by default: <NeoRgbwcFeature, NeoEsp32Rmt0Ws2805Method>
+RMT channel can be changed.
 
 If you need to change the method just fork the repo and edit `rgbwc_neopixelbus.h`
 
 ## Example
 ```yaml
 external_components:
-  - source: github://Jak3zz/esphome-ws2805
+  - source: github://Jak3zz/esphome-custom-lights
     components: [rgbwc_neopixelbus]
 
 light:
@@ -20,6 +21,8 @@ light:
     name: Ambiance Light
     pin: 16
     num_leds: 10
+    #Optional
+    rmt_channel: 0 # default 0, valid values 0-7
 ```
 
 ## xiaomi_monitor_light component
@@ -36,7 +39,7 @@ If the light is out of sync with Esphome: turn on from Esphome and power cycle t
 ## Example
 ```yaml
 external_components:
-  - source: github://Jak3zz/esphome-ws2805
+  - source: github://Jak3zz/esphome-custom-lights
     components: [xiaomi_monitor_light]
 
 light:
