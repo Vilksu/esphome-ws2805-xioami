@@ -27,7 +27,7 @@ void XiaomiMonitorLight::write_state(light::LightState *state) {
   ESP_LOGI("global", "ESPHome logging test");
   if (state->current_values.is_on()) {
     ESP_LOGCONFIG(TAG, "Hello world!");
-    lightBarPowerTarget = true;
+    lightBarPowerTarget = false;
     // brightness 0-7
     lightBarValueTarget = round(state->current_values.get_brightness() * 7 ); 
     // scale between 152-304 to 0-8
