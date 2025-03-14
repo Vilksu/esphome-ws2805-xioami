@@ -39,7 +39,7 @@ void XiaomiMonitorLight::write_state(light::LightState *state) {
 
 
 //  Step encoder
-void XiaomiMonitorLight::StepEncoder(bool dir) {
+void XiaomiMonitorLight::stepEncoder(bool dir) {
   ESP_LOGCONFIG(TAG, "Stepping encoder to: %d", dir);
 
   encoderState = 1;
@@ -55,17 +55,18 @@ void XiaomiMonitorLight::StepEncoder(bool dir) {
 
 //  Main loop
 void XiaomiMonitorLight::loop() {
-  lightbarLoop();
+  lightBarLoop();
   encoderLoop();
 }
 
 //  Lightbar loop
-void XiaomiMonitorLight::lightbarLoop() {
+void XiaomiMonitorLight::lightBarLoop() {
   if(millis()-loopTimer < loopInterval) return;
   long debugTimer = millis();
 
 
-  switch (lightbarState) {
+  switch (lightBarState) {
+    // Adjusting power
     case 0:
       if(lightBarPower == lightBarPowerTarget)
       {
@@ -76,19 +77,74 @@ void XiaomiMonitorLight::lightbarLoop() {
       {
         if(lightbarButtonState == false)
         {
-          lightbarButtonState = true;
+          lightBarButtonState = true;
           digitalWrite(pinD, LOW);
           clickTimer = millis();
         }
         else if(millis()-clickTimer > clickDelay)
         {
-          lightbarButtonState = false;
+          lightBarButtonState = false;
           digitalWrite(pinD, HIGH);
           lightBarPower = lightBarPowerTarget;
           ESP_LOGCONFIG(TAG, "Power state toggled");
         }
       }
       break;
+
+    // Adjusting brightness
+    case 1:
+      if(!lightBarPower) lightbarState ++; //Adjust temperature only if power is on
+      else {
+        if(lightBarValue > lightBarValueTarget) {
+          stepEncoder(false);
+          lightBarValue --;
+        }
+        else if(lightBarValue < lightBarValueTarget) {
+          stepEncoder(true);
+          lightBarValue ++;
+        }
+      }
+      break;
+    
+    // Adjusting temperature
+    case 2:
+      if(!lightBarPower) lightBarState ++; //Adjust temperature only if power is on
+      else {
+        if(lightBarTemp == lightBarTempTarget) {
+          // If temperature is ok, let go of the button and move to the next state
+          if(lightBarButtonState == false) {
+            if(millis() - clickTimer > clickDelay) lightBarState ++;
+          }
+          else {
+            // Let go of the button
+            lightBarButtonState = false;
+            digitalWrite(pinD, HIGH);
+            clickTimer = millis();
+          }
+        }
+        else {
+          // Temperature is not ok, keep adjusting
+          if(lightBarButtonState == false) {
+            // Press down the button
+            lightBarButtonState = true;
+            digitalWrite(pinD, LOW);
+            clickTimer = millis();
+          }
+          else if(millis() - clickTimer > clickDelay) {
+            // Adjust temperature
+            if(LightBarTemp > LightBarTempTarget) {
+              stepEncoder(false);
+              lightBarTemp --;
+            }
+            else if(LightBarTemp < LightBarTempTarget) {
+              stepEncoder(true);
+              lightBarTemp ++;
+            }
+          }
+        }
+      }
+      break;
+
     default:
       lightbarState = 0;
       break;  

@@ -19,9 +19,9 @@ public:
 
 private:
     //void stepEncoder(bool dir);
-    void lightbarLoop();
+    void lightBarLoop();
     void encoderLoop();
-    void StepEncoder(bool dir);
+    void stepEncoder(bool dir);
 
     //void togglePower();
     //void setBrightness(std::function<void()> on_complete = nullptr);  
@@ -38,8 +38,8 @@ private:
     int encoderLoopInterval = 12; 
     int clickDelay = 100; 
     
-    int lightbarState = 0;
-    bool lightbarButtonState = false;
+    int lightBarState = 0;
+    bool lightBarButtonState = false;
 
     int encoderDir = 0;
     int encoderState = 0;
