@@ -68,7 +68,7 @@ void XiaomiMonitorLight::lightbarLoop() {
     debugNumber --;
   }
 
-  if(debugNumber == 30) debugDir = 0;
+  if(debugNumber == 7) debugDir = 0;
   if(debugNumber == 0) debugDir = 1;
   
 
