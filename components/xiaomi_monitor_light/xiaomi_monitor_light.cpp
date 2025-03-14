@@ -71,11 +71,11 @@ void XiaomiMonitorLight::lightBarLoop() {
       if(lightBarPower == lightBarPowerTarget)
       {
         ESP_LOGCONFIG(TAG, "Power state ok, next ->");
-        lightbarState ++;
+        lightBarState ++;
       }
       else
       {
-        if(lightbarButtonState == false)
+        if(lightBarButtonState == false)
         {
           lightBarButtonState = true;
           digitalWrite(pinD, LOW);
@@ -93,7 +93,7 @@ void XiaomiMonitorLight::lightBarLoop() {
 
     // Adjusting brightness
     case 1:
-      if(!lightBarPower) lightbarState ++; //Adjust temperature only if power is on
+      if(!lightBarPower) lightBarState ++; //Adjust temperature only if power is on
       else {
         if(lightBarValue > lightBarValueTarget) {
           stepEncoder(false);
@@ -132,11 +132,11 @@ void XiaomiMonitorLight::lightBarLoop() {
           }
           else if(millis() - clickTimer > clickDelay) {
             // Adjust temperature
-            if(LightBarTemp > LightBarTempTarget) {
+            if(lightBarTemp > lightBarTempTarget) {
               stepEncoder(false);
               lightBarTemp --;
             }
-            else if(LightBarTemp < LightBarTempTarget) {
+            else if(lightBarTemp < lightBarTempTarget) {
               stepEncoder(true);
               lightBarTemp ++;
             }
@@ -146,7 +146,7 @@ void XiaomiMonitorLight::lightBarLoop() {
       break;
 
     default:
-      lightbarState = 0;
+      lightBarState = 0;
       break;  
   }
   
