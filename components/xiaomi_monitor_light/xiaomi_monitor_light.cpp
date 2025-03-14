@@ -44,6 +44,8 @@ void XiaomiMonitorLight::loop() {
 
   ESP_LOGCONFIG(TAG, "Loop took %d ms", debugTimer - millis());
   loopTimer = millis();
+
+  encoderLoop();
 }
 
 void XiaomiMonitorLight::encoderLoop() {
