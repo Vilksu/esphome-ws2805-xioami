@@ -88,7 +88,10 @@ void XiaomiMonitorLight::lightbarLoop() {
           ESP_LOGCONFIG(TAG, "Power state toggled");
         }
       }
-      
+      break;
+    default:
+      lightbarState = 0;
+      break;  
   }
   
 
