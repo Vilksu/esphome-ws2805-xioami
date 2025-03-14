@@ -34,7 +34,7 @@ private:
     bool lightBarPower = false;
     bool lightBarPowerTarget = false;
 
-    int loopInterval = 150;
+    int loopInterval = 100;
     int encoderLoopInterval = 15; 
     int clickDelay = 100; 
     
