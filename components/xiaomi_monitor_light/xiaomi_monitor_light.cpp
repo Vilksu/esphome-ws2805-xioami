@@ -63,13 +63,13 @@ void XiaomiMonitorLight::loop() {
     debugNumber --;
   }
 
-  if(debugNumber < 10) debugDir = 1;
-  if(debugNumber < 1) debugDir = 0;
+  if(debugNumber == 10) debugDir = 0;
+  if(debugNumber == 0) debugDir = 1;
   
 
 
 
-  ESP_LOGCONFIG(TAG, "Loop took %d ms", debugTimer - millis());
+  ESP_LOGCONFIG(TAG, "Loop took %d ms", millis()-debugTimer);
   loopTimer = millis();
 
   encoderLoop();
@@ -117,7 +117,7 @@ void XiaomiMonitorLight::encoderLoop() {
   }
 
 
-  ESP_LOGCONFIG(TAG, "Encoder loop took %d ms", debugTimer - millis());
+  ESP_LOGCONFIG(TAG, "Encoder loop took %d ms", millis() - debugTimer);
   encoderTimer = millis();
 }
 
