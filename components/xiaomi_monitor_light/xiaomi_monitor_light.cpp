@@ -65,12 +65,12 @@ void XiaomiMonitorLight::lightbarLoop() {
   long debugTimer = millis();
 
 
-  switch (LightBarState) {
+  switch (lightbarState) {
     case 0:
       if(lightBarPower == lightBarPowerTarget)
       {
         ESP_LOGCONFIG(TAG, "Power state ok, next ->");
-        LightBarState ++;
+        lightbarState ++;
       }
       else
       {
