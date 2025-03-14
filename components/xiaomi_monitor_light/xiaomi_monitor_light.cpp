@@ -28,6 +28,11 @@ void XiaomiMonitorLight::write_state(light::LightState *state) {
   ESP_LOGCONFIG(TAG, "current_values.is_on(): %f", state->current_values.get_brightness());
   ESP_LOGCONFIG(TAG, "current_values.get_brightness(): %f", state->current_values.get_brightness());
   ESP_LOGCONFIG(TAG, "current_values.get_color_temperature(): %f", state->current_values.get_color_temperature());
+
+
+  lightBarPowerTarget = state->current_values.is_on();
+  lightBarValueTarget = state->current_values.get_brightness();
+  lightBarTempTarget = state->current_values.get_color_temperature();
 }
 
 
@@ -59,22 +64,37 @@ void XiaomiMonitorLight::lightbarLoop() {
   if(millis()-loopTimer < loopInterval) return;
   long debugTimer = millis();
 
-  if(debugDir == 1) {
-    StepEncoder(true);
-    debugNumber ++;
-  }
-  else {
-    StepEncoder(false);
-    debugNumber --;
-  }
 
-  if(debugNumber == 7) debugDir = 0;
-  if(debugNumber == 0) debugDir = 1;
+  switch (LightBarState) {
+    case 0:
+      if(lightBarPower == lightBarPowerTarget)
+      {
+        ESP_LOGCONFIG(TAG, "Power state ok, next ->");
+        LightBarState ++;
+      }
+      else
+      {
+        if(lightbarButtonState == false)
+        {
+          lightbarButtonState = true;
+          digitalWrite(pinD, LOW);
+          clickTimer = millis();
+        }
+        else if(millis()-clickTimer > clickDelay)
+        {
+          lightbarButtonState = false;
+          digitalWrite(pinD, HIGH);
+          lightBarPower = lightBarPowerTarget;
+          ESP_LOGCONFIG(TAG, "Power state toggled");
+        }
+      }
+      
+  }
   
 
 
 
-  ESP_LOGCONFIG(TAG, "Loop took %d ms", millis()-debugTimer);
+  //ESP_LOGCONFIG(TAG, "Loop took %d ms", millis()-debugTimer);
   loopTimer = millis();
 }
 

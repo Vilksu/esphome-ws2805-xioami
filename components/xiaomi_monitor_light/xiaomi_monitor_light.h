@@ -35,17 +35,21 @@ private:
     bool lightBarPowerTarget = false;
 
     int loopInterval = 100;
-    int encoderLoopInterval = 15; 
+    int encoderLoopInterval = 12; 
     int clickDelay = 100; 
     
+    int lightbarState = 0;
+    bool lightbarButtonState = false;
 
     int encoderDir = 0;
     int encoderState = 0;
+    
 
     int pinD, pinA, pinB;
 
     long loopTimer = 0;
     long encoderTimer = 0;
+    long clickTimer = 0;
 
     int debugNumber = 0;
     int debugDir = 1;
