@@ -12,6 +12,7 @@ public:
     XiaomiMonitorLight(int pinD, int pinA, int pinB);
 
     void setup() override;
+    void loop() override;
     void write_state(light::LightState *state) override;
     light::LightTraits get_traits() override;
     void dump_config() override;
