@@ -31,15 +31,18 @@ private:
     bool lightBarPower = false;
     bool lightBarPowerTarget = false;
 
+    int loopInterval = 100;
+    int encoderLoopInterval = 10; 
     int clickDelay = 100; 
+    
 
-    int encoderDelay = 10; 
     int encoderDir = 0;
     int encoderState = 0;
 
     int pinD, pinA, pinB;
 
     long loopTimer = 0;
+    long encoderTimer = 0;
 };
 
 }  // namespace xiaomi_monitor_light

@@ -14,13 +14,6 @@ XiaomiMonitorLight::XiaomiMonitorLight(int pinD, int pinA, int pinB) : pinD(pinD
 
 void XiaomiMonitorLight::setup() {}
 
-void XiaomiMonitorLight::loop() {
-  if(millis() - loopTimer > 5000) {
-    ESP_LOGCONFIG(TAG, "Loop");
-    loopTimer = millis();
-  }
-}
-
 
 light::LightTraits XiaomiMonitorLight::get_traits() {
   auto traits = light::LightTraits();
@@ -31,55 +24,58 @@ light::LightTraits XiaomiMonitorLight::get_traits() {
 }
 
 void XiaomiMonitorLight::write_state(light::LightState *state) {
-  if (state->current_values.is_on()) {
-    ESP_LOGCONFIG(TAG, "New state recieved:");
-    ESP_LOGCONFIG(TAG, "current_values.is_on(): %f", state->current_values.get_brightness());
-    ESP_LOGCONFIG(TAG, "current_values.get_brightness(): %f", state->current_values.get_brightness());
-    ESP_LOGCONFIG(TAG, "current_values.get_color_temperature(): %f", state->current_values.get_color_temperature());
-    lightBarPowerTarget = true;
-    // brightness 0-7
-    lightBarValueTarget = round(state->current_values.get_brightness() * 7 ); 
-    // scale between 152-304 to 0-8
-    lightBarTempTarget = 8 - round((state->current_values.get_color_temperature() - 152) / 19);
-  } else {
-    lightBarPowerTarget = false;
-  }
+  ESP_LOGCONFIG(TAG, "New state recieved:");
+  ESP_LOGCONFIG(TAG, "current_values.is_on(): %f", state->current_values.get_brightness());
+  ESP_LOGCONFIG(TAG, "current_values.get_brightness(): %f", state->current_values.get_brightness());
+  ESP_LOGCONFIG(TAG, "current_values.get_color_temperature(): %f", state->current_values.get_color_temperature());
+  // if (state->current_values.is_on()) {
+    
+  //   lightBarPowerTarget = true;
+  //   // brightness 0-7
+  //   lightBarValueTarget = round(state->current_values.get_brightness() * 7 ); 
+  //   // scale between 152-304 to 0-8
+  //   lightBarTempTarget = 8 - round((state->current_values.get_color_temperature() - 152) / 19);
+  // } else {
+  //   lightBarPowerTarget = false;
+  // }
 
-  if (lightBarPower != lightBarPowerTarget) {
-    togglePower();
-  } else if (lightBarValue != lightBarValueTarget) {
-    setBrightness([this]() {  // Adjust temperature after brightness is done
-      if (lightBarTemp != lightBarTempTarget) {
-        digitalWrite(pinD, LOW);
-        setTemperature([this]() {
-          digitalWrite(pinD, HIGH);  // Set pinD HIGH after temperature adjustment is complete
-        });
-      }
-    });
-  } else if (lightBarTemp != lightBarTempTarget) {
-    digitalWrite(pinD, LOW);
-    setTemperature([this]() {
-      digitalWrite(pinD, HIGH);  // Ensure pinD is HIGH after temperature adjustment
-    });
-  }
+  // if (lightBarPower != lightBarPowerTarget) {
+  //   togglePower();
+  // } else if (lightBarValue != lightBarValueTarget) {
+  //   setBrightness([this]() {  // Adjust temperature after brightness is done
+  //     if (lightBarTemp != lightBarTempTarget) {
+  //       digitalWrite(pinD, LOW);
+  //       setTemperature([this]() {
+  //         digitalWrite(pinD, HIGH);  // Set pinD HIGH after temperature adjustment is complete
+  //       });
+  //     }
+  //   });
+  // } else if (lightBarTemp != lightBarTempTarget) {
+  //   digitalWrite(pinD, LOW);
+  //   setTemperature([this]() {
+  //     digitalWrite(pinD, HIGH);  // Ensure pinD is HIGH after temperature adjustment
+  //   });
+  // }
 }
 
 void XiaomiMonitorLight::togglePower() {
-  digitalWrite(pinD, LOW);
-  this->set_timeout("toggle_power", clickDelay, [this]() {
-    digitalWrite(pinD, HIGH);
-    lightBarPower = !lightBarPower;
-    if (lightBarValue != lightBarValueTarget) {
-      setBrightness([this]() {
-        if (lightBarTemp != lightBarTempTarget) {
-          digitalWrite(pinD, LOW);
-          setTemperature([this]() {
-            digitalWrite(pinD, HIGH);
-          });
-        }
-      });
-    }
-  });
+  ESP_LOGCONFIG(TAG, "Toggle power");
+
+  // digitalWrite(pinD, LOW);
+  // this->set_timeout("toggle_power", clickDelay, [this]() {
+  //   digitalWrite(pinD, HIGH);
+  //   lightBarPower = !lightBarPower;
+  //   if (lightBarValue != lightBarValueTarget) {
+  //     setBrightness([this]() {
+  //       if (lightBarTemp != lightBarTempTarget) {
+  //         digitalWrite(pinD, LOW);
+  //         setTemperature([this]() {
+  //           digitalWrite(pinD, HIGH);
+  //         });
+  //       }
+  //     });
+  //   }
+  // });
 }
 
 void XiaomiMonitorLight::setBrightness(std::function<void()> on_complete) {
@@ -152,6 +148,71 @@ void XiaomiMonitorLight::stepEncoder(bool dir) {
     });
   });
 }
+///Jarkon koodi loppuu
+
+
+
+
+//Loop function
+void XiaomiMonitorLight::loop() {
+  if(millis()-loopTimer < loopInterval) return;
+  long debugTimer = millis();
+
+
+
+
+
+  ESP_LOGCONFIG(TAG, "Loop took %d ms", debugTimer - millis());
+  loopTimer = millis();
+}
+
+void XiaomiMonitorLight:encoderLoop() {
+  if(millis()-encoderTimer < encoderLoopInterval) return;
+  if(encoderDir == 0) return;
+  if(encoderState == 0) return;
+  long debugTimer = millis();
+
+  int FirstPin = pinB;
+  int SecondPin = pinA;
+  if(encoderDir == 1)
+  {
+    FirstPin = pinA;
+    SecondPin = pinB;
+  }
+  
+  if(encoderState == 1)
+  {
+    //First rising
+    digitalWrite(FirstPin,LOW);
+  }
+  else if(encoderState == 2)
+  {
+    //Second rising
+    digitalWrite(SecondPin,LOW);
+  }
+  else if(encoderState == 3)
+  {
+    //First falling
+    digitalWrite(FirstPin,HIGH);
+  }
+  else if(encoderState == 4)
+  {
+    //Second falling
+    digitalWrite(SecondPin,HIGH);
+  }
+  encoderState ++;
+  if(encoderState == 5)
+  {
+    encoderState = 0;
+    encoderDir = 0;
+  }
+
+
+  ESP_LOGCONFIG(TAG, "Encoder loop took %d ms", debugTimer - millis());
+  encoderTimer = millis();
+}
+
+
 
 
 void XiaomiMonitorLight::dump_config() { ESP_LOGCONFIG(TAG, "Empty custom light"); }
