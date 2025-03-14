@@ -25,6 +25,7 @@ light::LightTraits XiaomiMonitorLight::get_traits() {
 
 void XiaomiMonitorLight::write_state(light::LightState *state) {
   if (state->current_values.is_on()) {
+    ESP_LOGCONFIG(TAG, "Hello world!")
     lightBarPowerTarget = true;
     // brightness 0-7
     lightBarValueTarget = round(state->current_values.get_brightness() * 7 ); 
