@@ -46,7 +46,7 @@ void XiaomiMonitorLight::loop() {
   loopTimer = millis();
 }
 
-void XiaomiMonitorLight:encoderLoop() {
+void XiaomiMonitorLight::encoderLoop() {
   if(millis()-encoderTimer < encoderLoopInterval) return;
   if(encoderDir == 0) return;
   if(encoderState == 0) return;
