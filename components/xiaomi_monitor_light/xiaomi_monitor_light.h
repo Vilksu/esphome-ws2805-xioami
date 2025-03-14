@@ -20,6 +20,7 @@ public:
 private:
     //void stepEncoder(bool dir);
     void encoderLoop();
+    void StepEncoder(bool dir);
 
     //void togglePower();
     //void setBrightness(std::function<void()> on_complete = nullptr);  
