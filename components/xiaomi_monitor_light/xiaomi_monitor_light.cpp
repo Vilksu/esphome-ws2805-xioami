@@ -33,10 +33,8 @@ void XiaomiMonitorLight::write_state(light::LightState *state) {
 
 
 
-//Loop function
-
+//  Step encoder
 void XiaomiMonitorLight::StepEncoder(bool dir) {
-  //Step encoder in a direction
   ESP_LOGCONFIG(TAG, "Stepping encoder to: %d", dir);
 
   encoderState = 1;
@@ -50,11 +48,13 @@ void XiaomiMonitorLight::StepEncoder(bool dir) {
   }
 }
 
+//  Main loop
 void XiaomiMonitorLight::loop() {
   lightbarLoop();
   encoderLoop();
 }
 
+//  Lightbar loop
 void XiaomiMonitorLight::lightbarLoop() {
   if(millis()-loopTimer < loopInterval) return;
   long debugTimer = millis();
@@ -78,6 +78,7 @@ void XiaomiMonitorLight::lightbarLoop() {
   loopTimer = millis();
 }
 
+//  Encoder loop
 void XiaomiMonitorLight::encoderLoop() {
   if(millis()-encoderTimer < encoderLoopInterval) return;
   if(encoderDir == 0) return;
@@ -119,8 +120,6 @@ void XiaomiMonitorLight::encoderLoop() {
     encoderDir = 0;
   }
 
-
-  ESP_LOGCONFIG(TAG, "Encoder loop took %d ms", millis() - debugTimer);
   encoderTimer = millis();
 }
 
