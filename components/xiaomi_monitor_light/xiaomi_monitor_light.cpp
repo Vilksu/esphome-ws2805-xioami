@@ -25,6 +25,9 @@ light::LightTraits XiaomiMonitorLight::get_traits() {
 
 void XiaomiMonitorLight::write_state(light::LightState *state) {
   ESP_LOGI("global", "ESPHome logging test");
+  ESP_LOGCONFIG(TAG, "Hello world!");
+  ESP_LOGI(TAG, "Setup started");
+
   if (state->current_values.is_on()) {
     ESP_LOGCONFIG(TAG, "Hello world!");
     lightBarPowerTarget = false;
