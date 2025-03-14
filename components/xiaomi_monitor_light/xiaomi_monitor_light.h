@@ -18,11 +18,12 @@ public:
     void dump_config() override;
 
 private:
-    void stepEncoder(bool dir);
+    //void stepEncoder(bool dir);
+    void encoderLoop();
 
-    void togglePower();
-    void setBrightness(std::function<void()> on_complete = nullptr);  
-    void setTemperature(std::function<void()> on_complete = nullptr);
+    //void togglePower();
+    //void setBrightness(std::function<void()> on_complete = nullptr);  
+    //void setTemperature(std::function<void()> on_complete = nullptr);
 
     int lightBarValue = 0;
     int lightBarValueTarget = 0;
