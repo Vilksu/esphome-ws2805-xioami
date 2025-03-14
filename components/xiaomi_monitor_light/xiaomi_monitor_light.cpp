@@ -14,6 +14,12 @@ XiaomiMonitorLight::XiaomiMonitorLight(int pinD, int pinA, int pinB) : pinD(pinD
 
 void XiaomiMonitorLight::setup() {}
 
+void XiaomiMonitorLight::loop() {
+  if(millis() - loopTimer > 5000) {
+    ESP_LOGCONFIG(TAG, "Loop");
+  }
+}
+
 
 light::LightTraits XiaomiMonitorLight::get_traits() {
   auto traits = light::LightTraits();
@@ -25,8 +31,11 @@ light::LightTraits XiaomiMonitorLight::get_traits() {
 
 void XiaomiMonitorLight::write_state(light::LightState *state) {
   if (state->current_values.is_on()) {
-    ESP_LOGCONFIG(TAG, "Hello world!");
-    lightBarPowerTarget = false;
+    ESP_LOGCONFIG(TAG, "New state recieved:");
+    ESP_LOGCONFIG(TAG, "current_values.is_on(): %f", state->current_values.get_brightness());
+    ESP_LOGCONFIG(TAG, "current_values.get_brightness(): %f", state->current_values.get_brightness());
+    ESP_LOGCONFIG(TAG, "current_values.get_color_temperature(): %f", state->current_values.get_color_temperature());
+    lightBarPowerTarget = true;
     // brightness 0-7
     lightBarValueTarget = round(state->current_values.get_brightness() * 7 ); 
     // scale between 152-304 to 0-8

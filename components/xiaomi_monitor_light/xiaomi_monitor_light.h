@@ -37,6 +37,8 @@ private:
     int encoderState = 0;
 
     int pinD, pinA, pinB;
+
+    long loopTimer = 0;
 };
 
 }  // namespace xiaomi_monitor_light
