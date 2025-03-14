@@ -19,6 +19,7 @@ public:
 
 private:
     //void stepEncoder(bool dir);
+    void lightbarLoop();
     void encoderLoop();
     void StepEncoder(bool dir);
 

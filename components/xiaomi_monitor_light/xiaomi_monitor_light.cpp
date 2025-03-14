@@ -51,6 +51,11 @@ void XiaomiMonitorLight::StepEncoder(bool dir) {
 }
 
 void XiaomiMonitorLight::loop() {
+  lightbarLoop();
+  encoderLoop();
+}
+
+void XiaomiMonitorLight::lightbarLoop() {
   if(millis()-loopTimer < loopInterval) return;
   long debugTimer = millis();
 
@@ -71,8 +76,6 @@ void XiaomiMonitorLight::loop() {
 
   ESP_LOGCONFIG(TAG, "Loop took %d ms", millis()-debugTimer);
   loopTimer = millis();
-
-  encoderLoop();
 }
 
 void XiaomiMonitorLight::encoderLoop() {
