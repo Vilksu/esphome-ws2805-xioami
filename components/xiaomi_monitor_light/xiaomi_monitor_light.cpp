@@ -17,6 +17,7 @@ void XiaomiMonitorLight::setup() {}
 void XiaomiMonitorLight::loop() {
   if(millis() - loopTimer > 5000) {
     ESP_LOGCONFIG(TAG, "Loop");
+    loopTimer = millis();
   }
 }
 
