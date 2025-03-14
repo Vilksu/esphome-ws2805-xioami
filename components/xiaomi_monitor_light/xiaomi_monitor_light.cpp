@@ -34,11 +34,38 @@ void XiaomiMonitorLight::write_state(light::LightState *state) {
 
 
 //Loop function
+
+void XiaomiMonitorLight::StepEncoder(bool dir) {
+  //Step encoder in a direction
+  ESP_LOGCONFIG(TAG, "Stepping encoder to: %d", dir);
+
+  encoderState = 1;
+  if(dir)
+  {
+    encoderDir = 1;
+  }
+  else
+  {
+    encoderDir = -1;
+  }
+}
+
 void XiaomiMonitorLight::loop() {
   if(millis()-loopTimer < loopInterval) return;
   long debugTimer = millis();
 
+  if(debugDir == 1) {
+    StepEncoder(true);
+    debugNumber ++;
+  }
+  else {
+    StepEncoder(false);
+    debugNumber --;
+  }
 
+  if(debugNumber < 10) debugDir = 1;
+  if(debugNumber < 1) debugDir = 0;
+  
 
 
 

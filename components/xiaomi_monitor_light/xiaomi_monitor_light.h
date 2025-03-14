@@ -32,7 +32,7 @@ private:
     bool lightBarPower = false;
     bool lightBarPowerTarget = false;
 
-    int loopInterval = 100;
+    int loopInterval = 1000;
     int encoderLoopInterval = 10; 
     int clickDelay = 100; 
     
@@ -44,6 +44,9 @@ private:
 
     long loopTimer = 0;
     long encoderTimer = 0;
+
+    int debugNumber = 0;
+    int debugDir = 1;
 };
 
 }  // namespace xiaomi_monitor_light
