@@ -31,8 +31,11 @@ private:
     int lightBarValueTarget = 0;
     int lightBarTemp = 0;
     int lightBarTempTarget = 0;
-    bool lightBarPower = false;
-    bool lightBarPowerTarget = false;
+    bool lightBarPower = true;
+    bool lightBarPowerTarget = true;
+
+    bool calibarting = true;
+    int calibartingState = 0;
 
     int loopInterval = 100;
     int encoderLoopInterval = 12; 
@@ -50,9 +53,7 @@ private:
     long loopTimer = 0;
     long encoderTimer = 0;
     long clickTimer = 0;
-
-    int debugNumber = 0;
-    int debugDir = 1;
+    long calibartingTimer = 0;
 };
 
 }  // namespace xiaomi_monitor_light

@@ -10,6 +10,10 @@ XiaomiMonitorLight::XiaomiMonitorLight(int pinD, int pinA, int pinB) : pinD(pinD
   pinMode(pinD, OUTPUT);
   pinMode(pinA, OUTPUT);
   pinMode(pinB, OUTPUT);
+
+  digitalWrite(pinD, HIGH);
+  digitalWrite(pinA, HIGH);
+  digitalWrite(pinB, HIGH);
 }
 
 void XiaomiMonitorLight::setup() {}
@@ -24,19 +28,19 @@ light::LightTraits XiaomiMonitorLight::get_traits() {
 }
 
 void XiaomiMonitorLight::write_state(light::LightState *state) {
-  ESP_LOGCONFIG(TAG, "New state recieved:");
-  ESP_LOGCONFIG(TAG, "current_values.is_on(): %f", state->current_values.get_brightness());
-  ESP_LOGCONFIG(TAG, "current_values.get_brightness(): %f", state->current_values.get_brightness());
-  ESP_LOGCONFIG(TAG, "current_values.get_color_temperature(): %f", state->current_values.get_color_temperature());
+  //ESP_LOGCONFIG(TAG, "New state recieved:");
+  //ESP_LOGCONFIG(TAG, "current_values.is_on(): %f", state->current_values.get_brightness());
+  //ESP_LOGCONFIG(TAG, "current_values.get_brightness(): %f", state->current_values.get_brightness());
+  //ESP_LOGCONFIG(TAG, "current_values.get_color_temperature(): %f", state->current_values.get_color_temperature());
 
 
   lightBarPowerTarget = state->current_values.is_on();
 
   // 0-1 -> 0-7
-  lightBarValueTarget = round(state->current_values.get_brightness() * 7 );
+  lightBarValueTarget  = round(state->current_values.get_brightness() * 7 );
 
   // 152-304 -> 0-8
-  lightBarTempTarget = 8 - round((state->current_values.get_color_temperature() - 152) / 19);
+  lightBarTempTarget  = 8 - round((state->current_values.get_color_temperature() - 152) / 19);
 }
 
 
@@ -59,7 +63,46 @@ void XiaomiMonitorLight::stepEncoder(bool dir) {
 
 //  Main loop
 void XiaomiMonitorLight::loop() {
-  lightBarLoop();
+  //Calibration
+  if(calibarting){
+    if(calibartingState < 10)
+    {
+      stepEncoder(false);
+      calibartingState ++;
+    }
+    else
+    {
+      if(lightBarButtonState == false)
+      {
+        lightBarButtonState = true;
+        digitalWrite(pinD, LOW);
+        clickTimer = millis();
+      }
+      else if(millis()-clickTimer > clickDelay)
+      {
+        lightBarButtonState = false;
+        digitalWrite(pinD, HIGH);
+        if(calibartingState < 20) {
+          stepEncoder(false);
+          calibartingState ++;
+        }
+        else
+        {
+          calibarting = false;
+        }
+      }
+      
+    }
+    else
+    {
+      calibarting = false;
+    }
+
+  }
+  else
+  {
+    lightBarLoop();
+  }
   encoderLoop();
 }
 
