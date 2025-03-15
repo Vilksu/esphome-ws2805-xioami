@@ -99,7 +99,7 @@ void XiaomiMonitorLight::calibrate() {
           }
         }
         else {
-          ightBarButtonState = false;
+          lightBarButtonState = false;
           digitalWrite(pinD, HIGH);
           clickTimer = millis();
         }
