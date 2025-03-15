@@ -65,28 +65,7 @@ void XiaomiMonitorLight::stepEncoder(bool dir) {
 void XiaomiMonitorLight::loop() {
   //Calibration
   if(calibarting){
-    if(calibartingState < 10){
-      stepEncoder(false);
-      calibartingState ++;
-    }
-    else {
-      if(lightBarButtonState == false) {
-        lightBarButtonState = true;
-        digitalWrite(pinD, LOW);
-        clickTimer = millis();
-      }
-      else if(millis()-clickTimer > clickDelay) {
-        lightBarButtonState = false;
-        digitalWrite(pinD, HIGH);
-        if(calibartingState < 20) {
-          stepEncoder(false);
-          calibartingState ++;
-        }
-        else {
-          calibarting = false;
-        }
-      }
-    }
+    calibrate();
   }
   else
   {
@@ -95,6 +74,33 @@ void XiaomiMonitorLight::loop() {
   encoderLoop();
 }
 
+//  Calibration function
+void XioamiMonitorLight::calibrate() {
+  if(millis()-calibartingTimer < loopInterval) return;
+  if(calibartingState < 10){
+    stepEncoder(false);
+    calibartingState ++;
+  }
+  else {
+    if(lightBarButtonState == false) {
+      lightBarButtonState = true;
+      digitalWrite(pinD, LOW);
+      clickTimer = millis();
+    }
+    else if(millis()-clickTimer > clickDelay) {
+      lightBarButtonState = false;
+      digitalWrite(pinD, HIGH);
+      if(calibartingState < 20) {
+        stepEncoder(false);
+        calibartingState ++;
+      }
+      else {
+        calibarting = false;
+      }
+    }
+  }
+  calibartingTimer = millis();
+}
 //  Lightbar loop
 void XiaomiMonitorLight::lightBarLoop() {
   if(millis()-loopTimer < loopInterval) return;
