@@ -31,8 +31,12 @@ void XiaomiMonitorLight::write_state(light::LightState *state) {
 
 
   lightBarPowerTarget = state->current_values.is_on();
-  lightBarValueTarget = state->current_values.get_brightness();
-  lightBarTempTarget = state->current_values.get_color_temperature();
+
+  // 0-1 -> 0-7
+  lightBarValueTarget = state->current_values.round(state->current_values.get_brightness() * 7 );
+
+  // 152-304 -> 0-8
+  lightBarTempTarget = 8 - round((state->current_values.get_color_temperature() - 152) / 19);
 }
 
 
@@ -103,8 +107,9 @@ void XiaomiMonitorLight::lightBarLoop() {
           lightBarState ++;
         }
         else {
+          ESP_LOGCONFIG(TAG, "Current brightness: %d, Target brightness: %d", lightBarValue, lightBarValueTarget);
           // Adjust brightness
-          ESP_LOGCONFIG(TAG, "Adjusting brightness");
+          //ESP_LOGCONFIG(TAG, "Adjusting brightness");
           if(lightBarValue > lightBarValueTarget) {
             stepEncoder(false);
             lightBarValue --;
@@ -123,7 +128,6 @@ void XiaomiMonitorLight::lightBarLoop() {
         lightBarState ++; //Adjust temperature only if power is on
       }
       else {
-        ESP_LOGCONFIG(TAG, "Current temperature: %d, Target temperature: %d", lightBarTemp, lightBarTempTarget);
         if(lightBarTemp == lightBarTempTarget) {
           // If temperature is ok, let go of the button and move to the next state
           if(lightBarButtonState == false) {
@@ -140,6 +144,7 @@ void XiaomiMonitorLight::lightBarLoop() {
           }
         }
         else {
+          
           // Temperature is not ok, keep adjusting
           if(lightBarButtonState == false) {
             // Press down the button
@@ -149,7 +154,8 @@ void XiaomiMonitorLight::lightBarLoop() {
           }
           else if(millis() - clickTimer > clickDelay) {
             // Adjust temperature
-            ESP_LOGCONFIG(TAG, "Adjusting temperature");
+            //ESP_LOGCONFIG(TAG, "Adjusting temperature");
+            ESP_LOGCONFIG(TAG, "Current temperature: %d, Target temperature: %d", lightBarTemp, lightBarTempTarget);
             if(lightBarTemp > lightBarTempTarget) {
               stepEncoder(false);
               lightBarTemp --;
