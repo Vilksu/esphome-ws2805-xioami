@@ -98,15 +98,20 @@ void XiaomiMonitorLight::lightBarLoop() {
         ESP_LOGCONFIG(TAG, "Brightness ok, next ->");
       }
       else {
-        // Adjust brightness
-        ESP_LOGCONFIG(TAG, "Adjusting brightness");
-        if(lightBarValue > lightBarValueTarget) {
-          stepEncoder(false);
-          lightBarValue --;
+        if(lightBarValue == lightBarValueTarget) {
+          lightBarState ++;
         }
-        else if(lightBarValue < lightBarValueTarget) {
-          stepEncoder(true);
-          lightBarValue ++;
+        else {
+          // Adjust brightness
+          ESP_LOGCONFIG(TAG, "Adjusting brightness");
+          if(lightBarValue > lightBarValueTarget) {
+            stepEncoder(false);
+            lightBarValue --;
+          }
+          else if(lightBarValue < lightBarValueTarget) {
+            stepEncoder(true);
+            lightBarValue ++;
+          }
         }
       }
       break;
