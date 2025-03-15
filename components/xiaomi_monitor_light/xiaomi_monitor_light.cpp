@@ -33,7 +33,7 @@ void XiaomiMonitorLight::write_state(light::LightState *state) {
   lightBarPowerTarget = state->current_values.is_on();
 
   // 0-1 -> 0-7
-  lightBarValueTarget = state->current_values.round(state->current_values.get_brightness() * 7 );
+  lightBarValueTarget = round(state->current_values.get_brightness() * 7 );
 
   // 152-304 -> 0-8
   lightBarTempTarget = 8 - round((state->current_values.get_color_temperature() - 152) / 19);
