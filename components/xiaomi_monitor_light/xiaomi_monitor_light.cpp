@@ -123,6 +123,7 @@ void XiaomiMonitorLight::lightBarLoop() {
         lightBarState ++; //Adjust temperature only if power is on
       }
       else {
+        ESP_LOGCONFIG(TAG, "Current temperature: %d, Target temperature: %d", lightBarTemp, lightBarTempTarget);
         if(lightBarTemp == lightBarTempTarget) {
           // If temperature is ok, let go of the button and move to the next state
           if(lightBarButtonState == false) {
