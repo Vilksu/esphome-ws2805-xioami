@@ -88,14 +88,21 @@ void XiaomiMonitorLight::calibrate() {
       clickTimer = millis();
     }
     else if(millis()-clickTimer > clickDelay) {
-      lightBarButtonState = false;
-      digitalWrite(pinD, HIGH);
       if(calibartingState < 20) {
         stepEncoder(false);
         calibartingState ++;
       }
       else {
-        calibarting = false;
+        if(lightBarButtonState == false) {
+          if(millis() - clickTimer > clickDelay) {
+            calibarting = false;
+          }
+        }
+        else {
+          ightBarButtonState = false;
+          digitalWrite(pinD, HIGH);
+          clickTimer = millis();
+        }
       }
     }
   }
