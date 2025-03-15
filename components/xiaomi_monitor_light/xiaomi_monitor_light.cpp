@@ -75,7 +75,7 @@ void XiaomiMonitorLight::loop() {
 }
 
 //  Calibration function
-void XioamiMonitorLight::calibrate() {
+void XiaomiMonitorLight::calibrate() {
   if(millis()-calibartingTimer < loopInterval) return;
   if(calibartingState < 10){
     stepEncoder(false);
