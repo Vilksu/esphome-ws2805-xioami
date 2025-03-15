@@ -22,6 +22,7 @@ private:
     void lightBarLoop();
     void encoderLoop();
     void stepEncoder(bool dir);
+    void calibrate();
 
     //void togglePower();
     //void setBrightness(std::function<void()> on_complete = nullptr);  
