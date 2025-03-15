@@ -93,11 +93,6 @@ void XiaomiMonitorLight::loop() {
       }
       
     }
-    else
-    {
-      calibarting = false;
-    }
-
   }
   else
   {
