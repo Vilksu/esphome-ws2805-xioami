@@ -44,7 +44,7 @@ void XiaomiMonitorLight::write_state(light::LightState *state) {
 
 //  Step encoder
 void XiaomiMonitorLight::stepEncoder(bool dir) {
-  ESP_LOGCONFIG(TAG, "Stepping encoder to: %d", dir);
+  //ESP_LOGCONFIG(TAG, "Stepping encoder to: %d", dir);
 
   encoderState = 1;
   if(dir)
@@ -74,7 +74,7 @@ void XiaomiMonitorLight::lightBarLoop() {
     case 0:
       if(lightBarPower == lightBarPowerTarget)
       {
-        ESP_LOGCONFIG(TAG, "Power state ok, next ->");
+        //ESP_LOGCONFIG(TAG, "Power state ok, next ->");
         lightBarState ++;
       }
       else
@@ -90,7 +90,7 @@ void XiaomiMonitorLight::lightBarLoop() {
           lightBarButtonState = false;
           digitalWrite(pinD, HIGH);
           lightBarPower = lightBarPowerTarget;
-          ESP_LOGCONFIG(TAG, "Power state toggled");
+          //ESP_LOGCONFIG(TAG, "Power state toggled");
         }
       }
       break;
@@ -103,11 +103,11 @@ void XiaomiMonitorLight::lightBarLoop() {
       }
       else {
         if(lightBarValue == lightBarValueTarget) {
-          ESP_LOGCONFIG(TAG, "Brightness ok, next ->");
+          //ESP_LOGCONFIG(TAG, "Brightness ok, next ->");
           lightBarState ++;
         }
         else {
-          ESP_LOGCONFIG(TAG, "Current brightness: %d, Target brightness: %d", lightBarValue, lightBarValueTarget);
+          //ESP_LOGCONFIG(TAG, "Current brightness: %d, Target brightness: %d", lightBarValue, lightBarValueTarget);
           // Adjust brightness
           //ESP_LOGCONFIG(TAG, "Adjusting brightness");
           if(lightBarValue > lightBarValueTarget) {
@@ -132,7 +132,7 @@ void XiaomiMonitorLight::lightBarLoop() {
           // If temperature is ok, let go of the button and move to the next state
           if(lightBarButtonState == false) {
             if(millis() - clickTimer > clickDelay) {
-              ESP_LOGCONFIG(TAG, "Temperature ok, next ->");
+              //ESP_LOGCONFIG(TAG, "Temperature ok, next ->");
               lightBarState ++;
             }
           }
@@ -155,7 +155,7 @@ void XiaomiMonitorLight::lightBarLoop() {
           else if(millis() - clickTimer > clickDelay) {
             // Adjust temperature
             //ESP_LOGCONFIG(TAG, "Adjusting temperature");
-            ESP_LOGCONFIG(TAG, "Current temperature: %d, Target temperature: %d", lightBarTemp, lightBarTempTarget);
+            //ESP_LOGCONFIG(TAG, "Current temperature: %d, Target temperature: %d", lightBarTemp, lightBarTempTarget);
             if(lightBarTemp > lightBarTempTarget) {
               stepEncoder(false);
               lightBarTemp --;
