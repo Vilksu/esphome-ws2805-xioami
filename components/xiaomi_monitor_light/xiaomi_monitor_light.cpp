@@ -95,10 +95,11 @@ void XiaomiMonitorLight::lightBarLoop() {
     case 1:
       if(!lightBarPower) {
         lightBarState ++; //Adjust temperature only if power is on
-        ESP_LOGCONFIG(TAG, "Brightness ok, next ->");
+        
       }
       else {
         if(lightBarValue == lightBarValueTarget) {
+          ESP_LOGCONFIG(TAG, "Brightness ok, next ->");
           lightBarState ++;
         }
         else {
@@ -120,13 +121,15 @@ void XiaomiMonitorLight::lightBarLoop() {
     case 2:
       if(!lightBarPower) {
         lightBarState ++; //Adjust temperature only if power is on
-        ESP_LOGCONFIG(TAG, "Temperature ok, next ->");
       }
       else {
         if(lightBarTemp == lightBarTempTarget) {
           // If temperature is ok, let go of the button and move to the next state
           if(lightBarButtonState == false) {
-            if(millis() - clickTimer > clickDelay) lightBarState ++;
+            if(millis() - clickTimer > clickDelay) {
+              ESP_LOGCONFIG(TAG, "Temperature ok, next ->");
+              lightBarState ++;
+            }
           }
           else {
             // Let go of the button
